@@ -1,8 +1,8 @@
 ARG ARG_PHP_VERSION=7.3
 FROM php:${ARG_PHP_VERSION}-apache-bullseye
 
+ARG TESTRAIL_VERSION=7.5.3.1000
 ARG ARG_IONCUBE_VERSION=12.0.2
-ARG ARG_URL=https://secure.gurock.com/downloads/testrail/testrail-latest-ion71.zip
 
 ENV TR_DEFAULT_TASK_EXECUTION=60
 ENV TR_CONFIGPATH="/var/www/testrail/config/"
@@ -45,7 +45,7 @@ RUN \
     docker-php-ext-install pdo_mysql
 
 RUN \
-  wget --no-check-certificate -O /tmp/testrail.zip ${ARG_URL} && \
+  wget --no-check-certificate -O /tmp/testrail.zip https://secure.gurock.com/downloads/testrail/testrail-${TESTRAIL_VERSION}-ion72.zip && \
   mkdir -p /var/www/testrail && \
   mkdir -p /opt/testrail/attachments /opt/testrail/reports /opt/testrail/logs /opt/testrail/audit && \
   unzip /tmp/testrail.zip -d /var/www/ && \

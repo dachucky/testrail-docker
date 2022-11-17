@@ -1,6 +1,8 @@
 ARG ARG_PHP_VERSION=7.3
 FROM php:${ARG_PHP_VERSION}-apache-bullseye
 
+# Redeclare to make available in build stage: 
+# https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 ARG ARG_PHP_VERSION
 ARG TESTRAIL_VERSION=7.5.3.1000
 ARG ARG_IONCUBE_VERSION=12.0.2

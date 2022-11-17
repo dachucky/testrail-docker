@@ -1,8 +1,7 @@
 ARG ARG_PHP_VERSION=7.3
 FROM php:${ARG_PHP_VERSION}-apache-bullseye
 
-ARG ARG_PHP_VERSION=7.3
-ARG ARG_IONCUBE_VERSION=10.3.2
+ARG ARG_IONCUBE_VERSION=12.0.2
 ARG ARG_URL=https://secure.gurock.com/downloads/testrail/testrail-latest-ion71.zip
 
 ENV TR_DEFAULT_TASK_EXECUTION=60
@@ -41,6 +40,7 @@ RUN \
     docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu && \
     docker-php-ext-install ldap && \
     docker-php-ext-install pdo && \
+    docker-php-ext-configure gd --with-jpeg-dir=/usr/lib && \
     docker-php-ext-install gd && \
     docker-php-ext-install pdo_mysql
 

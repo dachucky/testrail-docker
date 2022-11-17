@@ -1,9 +1,11 @@
 ARG ARG_PHP_VERSION=7.3
 FROM php:${ARG_PHP_VERSION}-apache-bullseye
 
-ARG ARG_PHP_VERSION=7.3
-ARG ARG_IONCUBE_VERSION=10.3.2
-ARG ARG_URL=https://secure.gurock.com/downloads/testrail/testrail-latest-ion71.zip
+# Redeclare to make available in build stage: 
+# https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
+ARG ARG_PHP_VERSION
+ARG TESTRAIL_VERSION=7.5.3.1000
+ARG ARG_IONCUBE_VERSION=12.0.2
 
 ENV TR_DEFAULT_TASK_EXECUTION=60
 ENV TR_CONFIGPATH="/var/www/testrail/config/"
@@ -41,11 +43,12 @@ RUN \
     docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu && \
     docker-php-ext-install ldap && \
     docker-php-ext-install pdo && \
+    docker-php-ext-configure gd --with-jpeg-dir=/usr/lib && \
     docker-php-ext-install gd && \
     docker-php-ext-install pdo_mysql
 
 RUN \
-  wget --no-check-certificate -O /tmp/testrail.zip ${ARG_URL} && \
+  wget --no-check-certificate -O /tmp/testrail.zip https://secure.gurock.com/downloads/testrail/testrail-${TESTRAIL_VERSION}-ion72.zip && \
   mkdir -p /var/www/testrail && \
   mkdir -p /opt/testrail/attachments /opt/testrail/reports /opt/testrail/logs /opt/testrail/audit && \
   unzip /tmp/testrail.zip -d /var/www/ && \
